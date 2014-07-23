@@ -52,7 +52,7 @@ class ProductTest < ActiveSupport::TestCase
   end
 
   test "product is not valid without a unique title" do
-
+    debugger
     product = Product.new(:title       => products(:ruby).title,
                           :description => "yyy",
                           :price       => 1,
