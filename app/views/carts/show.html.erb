@@ -1,0 +1,8 @@
+<div class="entry">
+<h2 >Your Pragmatic Cart</h2> Visting count <%= pluralize(session[:counter], "time") %>
+</div>
+<ul>
+  <% @cart.line_items.each do |item| %>
+  <li><%= item.product.title %></li>
+  <% end %>
+</ul>
