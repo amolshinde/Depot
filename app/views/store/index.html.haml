@@ -1,0 +1,18 @@
+- if notice
+  = notice
+%strong Your Pragmatic Catalog
+%br/
+%br/
+
+- @products.each do |product|
+  = image_tag(product.image_url)
+  %br/
+  = sanitize(product.title)
+  %br/
+  = sanitize(product.description)
+  %span.price= number_to_currency(product.price)
+
+
+  %br/
+  %br/
+
