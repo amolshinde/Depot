@@ -1,52 +1,34 @@
 class LineItemsController < ApplicationController
 
   before_action :set_item, only: [:show, :edit, :update, :destroy]
+  after_action :set_path, only: [:index, :show, :new ]
 
   def index
     @line_items = LineItem.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @line_items }
-    end
   end
 
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @line_item }
-    end
   end
 
   def new
     @line_item = LineItem.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @line_item }
-    end
   end
 
   def edit
   end
 
   def create
-    debugger
     @cart = current_cart
-    @cnt = get_count
     product = Product.find(params[:product_id])
     @line_item = @cart.add_product(product.id)
-
     respond_to do |format|
       if @line_item.save
-        debugger
-        format.html { redirect_to(@line_item.cart :notice => 'Line item was successfully created.') }
+        format.html { redirect_to(store_url) }
+        format.js { @current_item = @line_item }
         format.xml  { render :xml => @line_item, :status => :created, :location => @line_item }
       else
-        debugger
         format.html { render :action => "new" }
-        format.xml  { render :xml => @line_item.errors,
-          :status => :unprocessable_entity }
+        format.xml  { render :xml => @line_item.errors,       :status => :unprocessable_entity }
       end
     end
   end
@@ -65,7 +47,6 @@ class LineItemsController < ApplicationController
 
   def destroy
     @line_item.destroy
-
     respond_to do |format|
       format.html { redirect_to(line_items_url) }
       format.xml  { head :ok }
@@ -76,6 +57,13 @@ class LineItemsController < ApplicationController
 
   def set_item
     @line_item = LineItem.find(params[:id])
+  end
+
+  def set_path
+    respond_to do |format|
+      format.html
+      format.xml  { render :xml => @line_items }
+    end
   end
 
   # def lineitem_param

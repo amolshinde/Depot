@@ -2,7 +2,8 @@
   = notice
 %h1
   %strong Your Pragmatic Catalog
-
+  user visited
+  = pluralize(session[:counter], "time")
 - @products.each do |product|
   .entry
     = image_tag(product.image_url)
@@ -10,6 +11,6 @@
     = sanitize(product.description)
     .price_line
       %span.price= number_to_currency(product.price)
-      = button_to 'Add to Cart', line_items_path(:product_id => product)
+      = button_to 'Add to Cart', line_items_path(:product_id => product), remote: true
 
 
